@@ -674,7 +674,8 @@ body {
 }
 
 .splash-pig-img {
-  width: 260px;
+  width: 340px;
+  max-width: 90vw;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.10));
