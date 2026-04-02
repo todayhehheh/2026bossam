@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>보쌈런</title>
+  <meta name="description" content="보쌈런 - 팀 빌딩 액티비티 앱">
+  <link rel="stylesheet" href="style.css?v=8">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <!-- 글로벌 뒤로가기 버튼 (Page 0 제외 모든 페이지에서 표시) -->
+    <button class="btn-back hidden" id="btn-back" onclick="goBack()">←</button>
+
+    <!-- ======================================
+       Page 0: 스플래시 화면
+       ====================================== -->
+    <div class="page active" id="page-0" style="padding: 0; padding-bottom: 0; overflow: hidden;">
+
+      <!-- 장식 요소 (반짝이) -->
+      <div class="splash-sparkles">
+        <span class="sparkle s1">✦</span>
+        <span class="sparkle s2">✧</span>
+        <span class="sparkle s3">♡</span>
+        <span class="sparkle s4">✦</span>
+        <span class="sparkle s5">✧</span>
+      </div>
+
+      <!-- 3층 물결 배경 -->
+      <!-- 레이어 3: 가장 연한 (뒤) -->
+      <div class="splash-wave wave-back">
+        <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+          <path fill="#D4F0FF"
+            d="M0,80L60,90C120,100,240,120,360,115C480,110,600,80,720,72C840,64,960,78,1080,90C1200,102,1320,112,1380,117L1440,122L1440,200L0,200Z">
+          </path>
+        </svg>
+        <div class="splash-wave-fill" style="background-color: #D4F0FF;"></div>
+      </div>
+      <!-- 레이어 2: 중간 -->
+      <div class="splash-wave wave-mid">
+        <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+          <path fill="#AEE2FF"
+            d="M0,100L80,92C160,84,320,68,480,78C640,88,800,124,960,130C1120,136,1280,112,1360,100L1440,88L1440,200L0,200Z">
+          </path>
+        </svg>
+        <div class="splash-wave-fill" style="background-color: #AEE2FF;"></div>
+      </div>
+      <!-- 레이어 1: 가장 진한 (앞) -->
+      <div class="splash-wave wave-front">
+        <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+          <path fill="#8DD4FF"
+            d="M0,120L48,115C96,110,192,100,288,108C384,116,480,142,576,148C672,154,768,140,864,126C960,112,1056,98,1152,102C1248,106,1344,128,1392,139L1440,150L1440,200L0,200Z">
+          </path>
+        </svg>
+        <div class="splash-wave-fill" style="background-color: #8DD4FF;"></div>
+      </div>
+
+      <!-- 메인 콘텐츠 -->
+      <div class="splash-content">
+        <!-- 타이틀 영역 -->
+        <div class="splash-text-area anim-item anim-delay-1">
+          <img src="title.png" alt="2026 보쌈런 - 여섯 돼지들의 버킷리스트" class="splash-title-img">
+        </div>
+
+        <!-- 돼지 캐릭터 -->
+        <div class="splash-character anim-item anim-delay-3">
+          <img src="splash_1.png" alt="보쌈런 캐릭터" class="splash-pig-img pig-float">
+        </div>
+      </div>
+
+      <!-- 시작하기 버튼 -->
+      <div class="splash-btn-area anim-item anim-delay-4" style="margin-bottom: 60px;">
+        <button class="btn-primary pink splash-start-btn" onclick="navigateTo(1)">시작하기</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 1: 온보딩 1/4
+       ====================================== -->
+    <div class="page" id="page-1">
+      <div class="onboarding-content">
+        <div class="ob-text-area">
+          <h2 class="ob-title" style="font-size:22px;">우리가...보쌈이 된다고?!</h2>
+          <p class="ob-subtitle">평화롭던 꿈드림 농장에 들려온 청천벽력 같은 소식.<br>오늘이 바로 우리가 농장을 떠나 '보쌈'이 되는 날이래!</p>
+        </div>
+        <div class="ob-dots">
+          <span class="ob-dot active"></span>
+          <span class="ob-dot"></span>
+          <span class="ob-dot"></span>
+          <span class="ob-dot"></span>
+        </div>
+        <div class="ob-image-area">
+          <img src="onborading_1.png" alt="온보딩 1" class="ob-img">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="navigateTo(2)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 2: 온보딩 2/4
+       ====================================== -->
+    <div class="page" id="page-2">
+      <div class="onboarding-content">
+        <div class="ob-text-area">
+          <h2 class="ob-title" style="font-size:22px;">마지막 소원을 들어줘!</h2>
+          <p class="ob-subtitle">이대로 떠나기엔 억울해! '비밀 버킷리스트'를 꺼냈어.<br>우리가 가기 전 마지막 추억을 함께 만들어줄래?</p>
+        </div>
+        <div class="ob-dots">
+          <span class="ob-dot"></span>
+          <span class="ob-dot active"></span>
+          <span class="ob-dot"></span>
+          <span class="ob-dot"></span>
+        </div>
+        <div class="ob-image-area">
+          <img src="onborading_2.png" alt="온보딩 2" class="ob-img">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="navigateTo(3)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 3: 온보딩 3/4
+       ====================================== -->
+    <div class="page" id="page-3">
+      <div class="onboarding-content">
+        <div class="ob-text-area">
+          <h2 class="ob-title" style="font-size:22px;">함께라면 이룰 수 있어!</h2>
+          <p class="ob-subtitle">너희가 팀이 되어 미션을 해결해 줘.<br>웃으며 농장을 떠날 수 있게 도와준다면 정말 행복할 거야!</p>
+        </div>
+        <div class="ob-dots">
+          <span class="ob-dot"></span>
+          <span class="ob-dot"></span>
+          <span class="ob-dot active"></span>
+          <span class="ob-dot"></span>
+        </div>
+        <div class="ob-image-area">
+          <img src="onborading_3.png" alt="온보딩 3" class="ob-img">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="navigateTo(4)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 4: 온보딩 4/4
+       ====================================== -->
+    <div class="page" id="page-4">
+      <div class="onboarding-content">
+        <div class="ob-text-area">
+          <h2 class="ob-title" style="font-size:22px;">자, 레이스를 시작하자!</h2>
+          <p class="ob-subtitle">지금부터 우리의 버킷리스트를 이루어줘!<br>보쌈런, 준비됐지? 우리의 꿈을 완성해 줘!</p>
+        </div>
+        <div class="ob-dots">
+          <span class="ob-dot"></span>
+          <span class="ob-dot"></span>
+          <span class="ob-dot"></span>
+          <span class="ob-dot active"></span>
+        </div>
+        <div class="ob-image-area">
+          <img src="onborading_4.png" alt="온보딩 4" class="ob-img">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="navigateTo(5)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 5: 팀명 입력
+       ====================================== -->
+    <div class="page" id="page-5">
+      <div class="form-content">
+        <h2 class="page-title">우리 팀의 이름은?</h2>
+        <p class="page-subtitle">멋진 팀 이름을 지어주세요!</p>
+        <input type="text" class="input-field" id="team-name-input" placeholder="예: 보쌈특공대" maxlength="20"
+          oninput="onTeamNameInput()">
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" id="btn-team-next" disabled onclick="saveTeamName()">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 6: 팀원 추가
+       ====================================== -->
+    <div class="page" id="page-6">
+      <div class="form-content">
+        <h2 class="page-title">팀원을 소개해주세요!</h2>
+        <p class="page-subtitle">함께하는 팀원의 이름을 입력해주세요.</p>
+        <div class="member-list" id="member-list">
+          <!-- 동적으로 추가됨 -->
+        </div>
+        <button class="btn-add-member" onclick="addMember()">
+          <span>＋</span> 팀원 추가
+        </button>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" id="btn-member-next" onclick="saveMembersAndNext()">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 6.5: 팀원 성향 알아보기 인트로
+       ====================================== -->
+    <div class="page" id="page-66">
+      <div class="onboarding-content">
+        <div class="ob-text-area">
+          <h2 class="ob-title">서로에 대해<br>알아볼 시간입니다! 🕵️‍♀️</h2>
+          <p class="ob-subtitle">팀원들은 어떤 성향을 가지고 있을까요?<br>다음 4가지 가벼운 질문들을 통해<br>팀원들의 진짜 스타일을 파헤쳐 봅니다.</p>
+        </div>
+        <div class="ob-image-area"
+          style="margin-top:20px; flex:1; display:flex; align-items:center; justify-content:center;">
+          <img src="q_0.png" alt="성향 알아보기" style="width:80%; max-width:300px; height:auto; object-fit:contain;">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="navigateTo(7)">질문 보러가기</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 7: 마지막 음식
+       ====================================== -->
+    <div class="page" id="page-7">
+      <div class="form-content">
+        <h2 class="page-title">🍕 마지막 음식</h2>
+        <p class="page-subtitle">내일 세상이 멸망한다면<br>마지막으로 먹고 싶은 음식 딱 1가지는?</p>
+        <div class="member-question-list" id="q-food-list">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="saveQuestionAndNext('foods', 'q-food-list', 8)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 8: 초능력
+       ====================================== -->
+    <div class="page" id="page-8">
+      <div class="form-content">
+        <h2 class="page-title">⚡ 초능력</h2>
+        <p class="page-subtitle">딱 하나의 초능력을<br>가질 수 있다면?</p>
+        <div class="member-question-list" id="q-superpower-list">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink"
+          onclick="saveQuestionAndNext('superpowers', 'q-superpower-list', 9)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 9: 5만원
+       ====================================== -->
+    <div class="page" id="page-9">
+      <div class="form-content">
+        <h2 class="page-title">💰 5만 원</h2>
+        <p class="page-subtitle">지금 당장 5만 원이 생긴다면<br>제일 먼저 할 일은?</p>
+        <div class="member-question-list" id="q-money-list">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="saveQuestionAndNext('money', 'q-money-list', 10)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 10: 스트레스 해소법
+       ====================================== -->
+    <div class="page" id="page-10">
+      <div class="form-content">
+        <h2 class="page-title">😤 스트레스 해소</h2>
+        <p class="page-subtitle">스트레스가 극에 달했을 때<br>나만의 해소법은?</p>
+        <div class="member-question-list" id="q-stress-list">
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" onclick="saveQuestionAndNext('stress', 'q-stress-list', 11)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 11: 팀 단체사진 업로드
+       ====================================== -->
+    <div class="page" id="page-11">
+      <div class="form-content" style="align-items: center;">
+        <h2 class="page-title">단체사진을 찍어주세요! 📸</h2>
+        <p class="page-subtitle">다 함께 모여 멋진 사진을 촬영하고<br>아래 버튼을 눌러 업로드해주세요.</p>
+
+        <label class="photo-upload-area" id="photo-upload-area">
+          <input type="file" accept="image/*" id="team-photo-input" onchange="onPhotoSelected(event)" hidden>
+          <div class="photo-placeholder" id="photo-placeholder">
+            <span class="photo-icon">📷</span>
+            <p class="photo-label">사진 업로드</p>
+            <p class="photo-hint">탭하여 갤러리 또는 파일에서 선택</p>
+          </div>
+          <img id="photo-preview" class="photo-preview" src="" alt="팀 사진 미리보기" style="display: none;">
+        </label>
+
+        <button class="btn-retake" id="btn-retake" style="display: none;" onclick="retakePhoto()">📷 다시 찍기</button>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" id="btn-photo-next" disabled onclick="savePhotoAndNext()">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 12: 밸런스 게임 Q1
+       ====================================== -->
+    <div class="page" id="page-12">
+      <div class="balance-content">
+        <p class="balance-question">새로운 무언가를 시작할 때?</p>
+        <div class="balance-img-area">
+          <img src="q_1.png" alt="Q1" class="balance-q-img">
+        </div>
+        <div class="balance-options">
+          <button class="balance-btn option-a" onclick="selectBalance(0, 'A')">
+            일단 시작하고<br>본다! 💪
+          </button>
+          <button class="balance-btn option-b" onclick="selectBalance(0, 'B')">
+            계획부터<br>세운다! 📝
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 13: 밸런스 게임 Q2
+       ====================================== -->
+    <div class="page" id="page-13">
+      <div class="balance-content">
+        <p class="balance-question">점심식사 메뉴를 정할 때?</p>
+        <div class="balance-img-area">
+          <img src="q_2.png" alt="Q2" class="balance-q-img">
+        </div>
+        <div class="balance-options">
+          <button class="balance-btn option-a" onclick="selectBalance(1, 'A')">
+            새로운 맛집<br>탐방! 🗺️
+          </button>
+          <button class="balance-btn option-b" onclick="selectBalance(1, 'B')">
+            검증된 단골집<br>방문! 🏠
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 14: 밸런스 게임 Q3
+       ====================================== -->
+    <div class="page" id="page-14">
+      <div class="balance-content">
+        <p class="balance-question">갑작스레 문제가 발생했을 때?</p>
+        <div class="balance-img-area">
+          <img src="q_3.png" alt="Q3" class="balance-q-img">
+        </div>
+        <div class="balance-options">
+          <button class="balance-btn option-a" onclick="selectBalance(2, 'A')">
+            즉시 행동으로<br>해결! ⚡
+          </button>
+          <button class="balance-btn option-b" onclick="selectBalance(2, 'B')">
+            원인 분석 후<br>해결! 🔍
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 15: 밸런스 게임 Q4
+       ====================================== -->
+    <div class="page" id="page-15">
+      <div class="balance-content">
+        <p class="balance-question">여행 스타일은?</p>
+        <div class="balance-img-area">
+          <img src="q_4.png" alt="Q4" class="balance-q-img">
+        </div>
+        <div class="balance-options">
+          <button class="balance-btn option-a" onclick="selectBalance(3, 'A')">
+            즉흥적인<br>자유여행! 🎒
+          </button>
+          <button class="balance-btn option-b" onclick="selectBalance(3, 'B')">
+            꼼꼼한<br>계획여행! 📋
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 16: 밸런스 게임 Q5
+       ====================================== -->
+    <div class="page" id="page-16">
+      <div class="balance-content">
+        <p class="balance-question">아이디어를 낼 때?</p>
+        <div class="balance-img-area">
+          <img src="q_5.png" alt="Q5" class="balance-q-img">
+        </div>
+        <div class="balance-options">
+          <button class="balance-btn option-a" onclick="selectBalance(4, 'A')">
+            브레인스토밍!<br>양이 중요! 🧠
+          </button>
+          <button class="balance-btn option-b" onclick="selectBalance(4, 'B')">
+            깊이 있는<br>하나가 중요! 💎
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 17: 밸런스 게임 결과
+       ====================================== -->
+    <div class="page" id="page-17">
+      <div class="result-card fade-in" id="result-card">
+        <div class="result-emoji" id="result-emoji">🔥</div>
+        <div class="result-type" id="result-type">행동파</div>
+        <p class="result-desc" id="result-desc">
+          일단 부딪히는 스타일! 빠른 실행력이 강점입니다.
+        </p>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary blue" onclick="navigateTo(18)">다음</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       Page 18: 사전 교육 영상 + 퀴즈
+       ====================================== -->
+    <div class="page" id="page-18" style="overflow-y: auto;">
+      <div class="video-quiz-content">
+        <h2 class="page-title" style="margin-bottom:2px; font-size:20px;">사전 교육 영상 📺</h2>
+        <p class="page-subtitle" style="margin-bottom:10px; font-size:13px;">영상을 끝까지 시청한 후 퀴즈를 풀어주세요.</p>
+
+        <div class="video-container" style="margin-bottom:10px;">
+          <iframe src="https://www.youtube.com/embed/W60JwY9PmVU" title="사전 교육 영상"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+
+        <div class="quiz-section">
+          <p class="quiz-question-text">
+            Q. 보행 중 안전을 위해 가장 기본적으로 지켜야 할 습관은 무엇인가요?
+          </p>
+
+          <div class="quiz-options" id="quiz-options">
+            <button class="quiz-option" onclick="selectQuiz(0)">
+              <span class="quiz-number">1</span>
+              최대한 빨리 뛰어서 이동한다.
+            </button>
+            <button class="quiz-option" onclick="selectQuiz(1)">
+              <span class="quiz-number">2</span>
+              뛰지 않고 차분하게 걷는다.
+            </button>
+            <button class="quiz-option" onclick="selectQuiz(2)">
+              <span class="quiz-number">3</span>
+              스마트폰을 보며 주변 상황을 확인한다.
+            </button>
+            <button class="quiz-option" onclick="selectQuiz(3)">
+              <span class="quiz-number">4</span>
+              차가 오더라도 무단횡단을 한다.
+            </button>
+          </div>
+
+          <!-- 오답 피드백 메시지 -->
+          <p class="quiz-feedback" id="quiz-feedback" style="margin-top:6px; min-height:16px;"></p>
+        </div>
+      </div>
+      <div class="bottom-btn-area">
+        <button class="btn-primary pink" id="btn-quiz-next" disabled onclick="onMissionStart()">미션 시작 🚀</button>
+      </div>
+    </div>
+
+    <!-- ======================================
+       메인 앱: 탭 네비게이션 구조
+       ====================================== -->
+    <div class="page" id="page-main" style="padding: 0; padding-bottom: 0;">
+
+      <!-- 탭 콘텐츠 영역 -->
+      <div class="tab-content-area">
+
+        <!-- 미션 탭 뷰 -->
+        <div class="tab-view active" id="tab-mission">
+          <div class="tab-header">
+            <h2 class="tab-title">여섯 돼지의 버킷리스트</h2>
+          </div>
+          <div class="mission-grid" id="mission-grid">
+            <!-- JS에서 동적 생성 -->
+          </div>
+        </div>
+
+        <!-- 지도 탭 뷰 -->
+        <div class="tab-view" id="tab-map">
+          <div class="tab-header">
+            <h2 class="tab-title">미션 지도 🗺️</h2>
+            <p class="tab-desc">현재 활성화된 미션 구역입니다.</p>
+          </div>
+          <div class="map-container" id="map-container"
+            style="position: relative; flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f0f0f5;">
+            <!-- 미션별 지도 이미지 -->
+            <img id="current-mission-map" src="map_0.png" alt="미션 지도"
+              style="width: 100%; height: 100%; object-fit: contain;">
+
+            <!-- 전체지도 플로팅 버튼 -->
+            <button class="btn-full-map" onclick="openFullMap()"
+              style="position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.6); color: white; border: none; padding: 10px 16px; border-radius: 20px; font-size: 14px; font-weight: 700; cursor: pointer; backdrop-filter: blur(4px); box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+              🔍 전체지도 보기
+            </button>
+          </div>
+        </div>
+
+        <!-- 팀 탭 뷰 -->
+        <div class="tab-view" id="tab-team">
+          <div class="team-photo-banner" id="team-photo-banner">
+            <div class="team-photo-placeholder">📸 팀 사진</div>
+          </div>
+          <div class="team-info-area" id="team-info-area">
+            <!-- JS에서 동적 생성 -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 하단 탭 바 -->
+      <nav class="bottom-tab-bar">
+        <button class="tab-item active" data-tab="mission" onclick="switchTab('mission')">
+          <span class="tab-icon">🎯</span>
+          <span class="tab-label">미션</span>
+        </button>
+        <button class="tab-item" data-tab="map" onclick="switchTab('map')">
+          <span class="tab-icon">🗺️</span>
+          <span class="tab-label">지도</span>
+        </button>
+        <button class="tab-item" data-tab="team" onclick="switchTab('team')">
+          <span class="tab-icon">👥</span>
+          <span class="tab-label">팀</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ======================================
+       미션 상세 페이지 (오버레이)
+       ====================================== -->
+    <div class="page" id="page-mission-detail" style="padding: 0; padding-bottom: 0;">
+      <div class="mission-detail-content">
+        <button class="btn-back-mission" onclick="closeMissionDetail()">← 미션 목록</button>
+        <div class="mission-detail-image" id="mission-detail-image">
+          <span style="font-size: 64px;" id="mission-detail-emoji">🔍</span>
+        </div>
+        <div class="mission-detail-info">
+          <h2 class="mission-detail-title" id="mission-detail-title">미션 1</h2>
+          <p class="mission-detail-desc" id="mission-detail-desc">미션 설명이 여기에 표시됩니다.</p>
+        </div>
+      </div>
+      <div class="mission-answer-area">
+        <div class="answer-input-row">
+          <input type="text" class="input-field" id="mission-answer-input" placeholder="정답을 입력하세요">
+          <button class="btn-answer-check" onclick="checkMissionAnswer()">확인</button>
+        </div>
+        <p class="answer-feedback" id="answer-feedback"></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======================================
+     QR 스캐너 모달 (전체화면, 검은 배경)
+     ====================================== -->
+  <div class="qr-scanner-modal" id="qr-scanner-modal">
+    <div class="qr-scanner-header">
+      <h3>QR 코드 스캔</h3>
+      <button class="btn-close-scanner" onclick="closeQrScanner()">✕</button>
+    </div>
+    <div id="qr-reader-container">
+      <div id="qr-reader"></div>
+    </div>
+    <p class="qr-scanner-hint">카메라 화면에 QR 코드를 비춰주세요.</p>
+  </div>
+
+  <!-- ======================================
+     QR 결과 모달 (화이트 배경, 둥근 모서리)
+     ====================================== -->
+  <div class="qr-result-modal-overlay" id="qr-result-modal">
+    <div class="qr-result-card">
+      <h3 id="qr-result-title">결과</h3>
+      <div class="qr-result-image">
+        <img id="qr-result-img" src="" alt="결과 이미지">
+      </div>
+      <p id="qr-result-msg"></p>
+      <button class="btn-primary" onclick="closeQrResult()">확인</button>
+    </div>
+  </div>
+
+  <!-- ======================================
+     전체 지도 모달 (전체화면)
+     ====================================== -->
+  <div class="full-map-modal" id="full-map-modal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.9); z-index: 10000; flex-direction: column;">
+    <div class="full-map-header"
+      style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; color: white;">
+      <h3 style="margin: 0; font-size: 18px; font-weight: 700;">보쌈런 전체지도</h3>
+      <button onclick="closeFullMap()"
+        style="background: none; border: none; color: white; font-size: 28px; cursor: pointer; padding: 0;">✕</button>
+    </div>
+    <div class="full-map-content"
+      style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden;">
+      <!-- map_0.png를 띄움 -->
+      <img src="map_0.png" alt="전체지도" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
+  </div>
+
+  <script src="app.js?v=21"></script>
+</body>
+
+</html>

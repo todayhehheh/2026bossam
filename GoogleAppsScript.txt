@@ -1,0 +1,102 @@
+// 아래의 코드를 전부 복사하여 Google Apps Script 편집기에 붙여넣으세요!
+
+function doPost(e) {
+  // CORS 처리
+  var origin = e.parameter.origin || "*";
+  
+  if (e.postData === undefined) {
+    return ContentService.createTextOutput("Error: No data").setMimeType(ContentService.MimeType.TEXT);
+  }
+
+  try {
+    var data = JSON.parse(e.postData.contents);
+    
+    // =============================================
+    // [1] 팀 정보가 넘어온 경우 (구글 시트 저장)
+    // =============================================
+    if (data.type === "teamInfo") {
+      // === 중요: 아래 SHEET_ID에 데이터를 저장할 구글 스프레드시트 ID를 넣으세요! ===
+      // (주소창 https://docs.google.com/spreadsheets/d/여기가_ID입니다/edit 의 ID 부분)
+      var SHEET_ID = "1axFmn5kfeWh_O1fgxArBHmZvJXznzwi8VtGzIaO51cg"; 
+      var sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+      
+      // 넘겨받은 데이터 파싱 (상세 정보 포함)
+      var teamName = data.teamName || "알수없는팀";
+      var memberCount = data.members ? data.members.length : 0;
+      var membersStr = data.members ? data.members.join(", ") : "";
+      var resultType = data.resultType || "분석실패";
+      
+      // 개별 프로필 데이터 포맷팅
+      var foodsStr = formatObjectToString(data.foods);
+      var superpowersStr = formatObjectToString(data.superpowers);
+      var moneyStr = formatObjectToString(data.money);
+      var stressStr = formatObjectToString(data.stress);
+      
+      // 시트의 마지막 줄에 [시간, 팀명, 인원수, 팀원명단, 팀성향(밸런스), 가장 좋아하는 음식, 초능력, 5만원, 스트레스 해소] 추가
+      var now = new Date();
+      var formattedDate = Utilities.formatDate(now, "Asia/Seoul", "yyyy-MM-dd HH:mm:ss");
+      
+      sheet.appendRow([
+        formattedDate, 
+        teamName, 
+        memberCount, 
+        membersStr, 
+        resultType, 
+        foodsStr, 
+        superpowersStr, 
+        moneyStr, 
+        stressStr
+      ]);
+      
+      return ContentService.createTextOutput("Sheet Save Success")
+                           .setMimeType(ContentService.MimeType.TEXT);
+    }
+    
+    
+    // =============================================
+    // [2] 사진 파일이 넘어온 경우 (구글 드라이브 저장)
+    // =============================================
+    if (data.mimeType && data.data) {
+      // === 중요: 아래 FOLDER_ID 에 사진을 저장할 구글 드라이브 폴더 ID를 넣으세요! ===
+      var FOLDER_ID = "1Hu_efxH5s7eEYAx2HNaQZnJLjXPC4qEx"; 
+      var folder = DriveApp.getFolderById(FOLDER_ID);
+      
+      var decodedData = Utilities.base64Decode(data.data);
+      var blob = Utilities.newBlob(decodedData, data.mimeType, data.fileName);
+      var file = folder.createFile(blob);
+      
+      // 누구나 읽을 수 있게 권한 조정
+      // file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      
+      return ContentService.createTextOutput("Success: " + file.getUrl())
+                           .setMimeType(ContentService.MimeType.TEXT);
+    }
+
+    return ContentService.createTextOutput("Error: Invalid task").setMimeType(ContentService.MimeType.TEXT);
+
+  } catch (error) {
+    return ContentService.createTextOutput("Error: " + error.toString())
+                         .setMimeType(ContentService.MimeType.TEXT);
+  }
+}
+
+// 객체(Object)를 "철수: 피자, 영희: 치킨" 형태의 문자열로 변환하는 헬퍼 함수
+function formatObjectToString(obj) {
+  if (!obj) return "";
+  var arr = [];
+  for (var key in obj) {
+    arr.push(key + ": " + obj[key]);
+  }
+  return arr.join("\n"); // 셀 내 줄바꿈을 원하면 "\n", 한줄로 원하면 ", " 사용
+}
+
+// OPTIONS 요청 처리 (CORS 방어용)
+function doOptions() {
+  var headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Max-Age": "86400"
+  };
+  return ContentService.createTextOutput("").setHeaders(headers);
+}
